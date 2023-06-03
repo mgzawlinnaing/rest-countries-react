@@ -1,7 +1,5 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const SingleCountry = () => {
   const { name } = useParams();
@@ -48,10 +46,10 @@ const SingleCountry = () => {
                 <li>Subregion: {item.subregion}</li>
               </ul>
 
-              {item.borders && (
+              {item?.borders && (
                 <>
                   <h3 className="text-gray-900 font-bold text-lg mb-2 dark:text-white">
-                    Borders:{" "}
+                    Borders:
                   </h3>
                   <ul className="flex flex-wrap items-start justify-start gap-2">
                     {item.borders.map((border, index) => (

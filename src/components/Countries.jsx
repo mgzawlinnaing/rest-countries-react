@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Article from "./Article";
 import { regions } from "../db/data";
+import { URL, URLByName, URLByRegion } from "../config";
+import { useFetchCountries } from "../hook/useFetchCountries";
 
 const Countries = () => {
   const [countries, setCountries] = useState([]);
@@ -8,13 +10,8 @@ const Countries = () => {
 
   useEffect(() => {
     const getAllCountries = async () => {
-      try {
-        const res = await fetch("https://restcountries.com/v3.1/all");
-        const data = await res.json();
-        setCountries(data);
-      } catch (error) {
-        console.log(error);
-      }
+      const returnedData = await useFetchCountries(URL);
+      setCountries(returnedData);
     };
 
     getAllCountries();
@@ -25,36 +22,18 @@ const Countries = () => {
   }, []);
 
   const searchCountry = async () => {
-    try {
-      const res = await fetch(
-        `https://restcountries.com/v3.1/name/${searchText}`
-      );
-      const data = await res.json();
-      setCountries(data);
-    } catch (error) {
-      console.log("Error while Searching country:", error);
-    }
+    const returnedData = await useFetchCountries(URLByName + searchText);
+    setCountries(returnedData);
   };
 
   const filterByRegion = async (region) => {
-    if (region === "Search by Select")
-      try {
-        const res = await fetch(`https://restcountries.com/v3.1/all`);
-        const data = await res.json();
-        return setCountries(data);
-      } catch (error) {
-        return console.log("Error while filtering Region:", error);
-      }
-
-    try {
-      const res = await fetch(
-        `https://restcountries.com/v3.1/region/${region}`
-      );
-      const data = await res.json();
-      setCountries(data);
-    } catch (error) {
-      console.log("Error while filtering Region:", error);
+    if (region === "Search by Select") {
+      const returnedData = await useFetchCountries(URL);
+      return setCountries(returnedData);
     }
+
+    const returnedNewData = await useFetchCountries(URLByRegion + region);
+    setCountries(returnedNewData);
   };
 
   const handleSearchCountry = (e) => {
