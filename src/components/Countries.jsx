@@ -20,6 +20,10 @@ const Countries = () => {
     getAllCountries();
   }, []);
 
+  useEffect(() => {
+    document.title = `All Countries`;
+  }, []);
+
   const searchCountry = async () => {
     try {
       const res = await fetch(
