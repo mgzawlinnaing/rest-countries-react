@@ -1,6 +1,5 @@
 export const regions = [
   {
-    id: 0,
     name: "Search by Select",
   },
   {
